@@ -3,7 +3,8 @@ import { CartContext } from '../context/CartContext';
 
 function Home() {
   const [menu, setMenu] = useState([]);
-  const { addToCart } = useContext(CartContext); // ✅ Access addToCart
+  const { addToCart } = useContext(CartContext);
+  const [toastMsg, setToastMsg] = useState('');
 
   useEffect(() => {
     const storedMenu = localStorage.getItem('menu');
@@ -12,9 +13,16 @@ function Home() {
     }
   }, []);
 
+  const handleAddToCart = (item) => {
+    addToCart(item);
+    setToastMsg(`${item.name} added to cart ✅`);
+    setTimeout(() => setToastMsg(''), 3000); // Toast disappears in 3s
+  };
+
   return (
     <div style={styles.container}>
       <h2>Canteen Menu</h2>
+
       {menu.length === 0 ? (
         <p>No items available. Please check later!</p>
       ) : (
@@ -24,16 +32,16 @@ function Home() {
               <img src={item.image} alt={item.name} style={styles.image} />
               <h4>{item.name}</h4>
               <p>₹ {item.price}</p>
-              <button
-                style={styles.addBtn}
-                onClick={() => addToCart(item)} // ✅ Add to cart
-              >
+              <button style={styles.addBtn} onClick={() => handleAddToCart(item)}>
                 Add to Cart
               </button>
             </div>
           ))}
         </div>
       )}
+
+      {/* Floating Toast Notification */}
+      {toastMsg && <div style={styles.toast}>{toastMsg}</div>}
     </div>
   );
 }
@@ -41,10 +49,11 @@ function Home() {
 const styles = {
   container: {
     padding: '20px',
+    fontFamily: 'sans-serif',
   },
   grid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))',
     gap: '20px',
   },
   card: {
@@ -68,6 +77,18 @@ const styles = {
     padding: '6px 12px',
     borderRadius: '4px',
     cursor: 'pointer',
+  },
+  toast: {
+    position: 'fixed',
+    bottom: '20px',
+    right: '20px',
+    backgroundColor: '#333',
+    color: 'white',
+    padding: '12px 20px',
+    borderRadius: '8px',
+    boxShadow: '2px 2px 12px rgba(0,0,0,0.3)',
+    animation: 'slideIn 0.4s ease-out',
+    zIndex: 1000,
   },
 };
 

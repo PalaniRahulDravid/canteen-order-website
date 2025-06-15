@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { CartContext } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
 
 function Cart() {
   const { cartItems, removeFromCart, clearCart } = useContext(CartContext);
+  const [successMsg, setSuccessMsg] = useState('');
   const total = cartItems.reduce((sum, item) => sum + item.price, 0);
   const navigate = useNavigate();
 
@@ -19,13 +20,17 @@ function Cart() {
     localStorage.setItem('orders', JSON.stringify(existingOrders));
 
     clearCart();
-    alert('Order placed successfully!');
-    navigate('/orders');
+    setSuccessMsg('🎉 Order placed successfully!');
+    setTimeout(() => {
+      setSuccessMsg('');
+      navigate('/orders');
+    }, 2000);
   };
 
   return (
     <div style={styles.container}>
       <h2 style={styles.heading}>🛒 Your Shopping Cart</h2>
+
       {cartItems.length === 0 ? (
         <p style={styles.empty}>Your cart is empty.</p>
       ) : (
@@ -55,6 +60,9 @@ function Cart() {
           </div>
         </div>
       )}
+
+      {/* Toast Message */}
+      {successMsg && <div style={styles.toast}>{successMsg}</div>}
     </div>
   );
 }
@@ -140,7 +148,20 @@ const styles = {
     cursor: 'pointer',
     fontSize: '16px',
     width: '100%',
-  }
+  },
+  toast: {
+  position: 'fixed',
+  top: '80px',
+  right: '20px',
+  background: 'linear-gradient(135deg, #007bff, #3399ff)',
+  color: '#fff',
+  padding: '12px 20px',
+  borderRadius: '10px',
+  boxShadow: '2px 2px 12px rgba(0,0,0,0.25)',
+  fontSize: '16px',
+  fontWeight: '500',
+  zIndex: 9999,
+}
 };
 
 export default Cart;

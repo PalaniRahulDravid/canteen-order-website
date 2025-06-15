@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 function Login() {
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: '', password: '' });
+  const [toastMsg, setToastMsg] = useState('');
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -11,13 +12,26 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`Login Successful!\nEmail: ${form.email}`);
+
+    // Simulate login check (you can replace this with real auth)
+    if (form.email && form.password) {
+      setToastMsg(`Welcome back, ${form.email.split('@')[0]} 👋`);
+
+      // Show message and then redirect after delay
+      setTimeout(() => {
+        setToastMsg('');
+        navigate('/'); // ✅ Redirect to home page
+      }, 2000);
+    } else {
+      setToastMsg('Invalid credentials! ❌');
+      setTimeout(() => setToastMsg(''), 3000);
+    }
   };
 
   return (
     <div style={styles.wrapper}>
       <div style={styles.box}>
-        {/* Left section */}
+        {/* Left Section */}
         <div style={styles.left}>
           <h2>Login</h2>
           <p>Get access to your Orders, Wishlist and Recommendations</p>
@@ -28,7 +42,7 @@ function Login() {
           />
         </div>
 
-        {/* Right section */}
+        {/* Right Section */}
         <div style={styles.right}>
           <form onSubmit={handleSubmit} style={styles.form}>
             <input
@@ -59,6 +73,9 @@ function Login() {
           </form>
         </div>
       </div>
+
+      {/* Toast Notification */}
+      {toastMsg && <div style={styles.toast}>{toastMsg}</div>}
     </div>
   );
 }
@@ -70,6 +87,8 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'relative',
+    fontFamily: 'sans-serif',
   },
   box: {
     width: '750px',
@@ -133,7 +152,20 @@ const styles = {
     color: '#2874f0',
     fontWeight: 'bold',
     cursor: 'pointer',
-  }
+  },
+  toast: {
+    position: 'fixed',
+    bottom: '20px',
+    right: '20px',
+    backgroundColor: '#323232',
+    color: '#fff',
+    padding: '14px 20px',
+    borderRadius: '8px',
+    fontSize: '15px',
+    boxShadow: '2px 2px 12px rgba(0,0,0,0.2)',
+    animation: 'slideIn 0.4s ease-out',
+    zIndex: 1000,
+  },
 };
 
 export default Login;
