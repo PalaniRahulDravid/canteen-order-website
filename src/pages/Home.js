@@ -16,7 +16,7 @@ function Home() {
   const handleAddToCart = (item) => {
     addToCart(item);
     setToastMsg(`${item.name} added to cart ✅`);
-    setTimeout(() => setToastMsg(''), 3000); // Toast disappears in 3s
+    setTimeout(() => setToastMsg(''), 3000);
   };
 
   return (
@@ -30,8 +30,10 @@ function Home() {
           {menu.map((item) => (
             <div key={item.id} style={styles.card}>
               <img src={item.image} alt={item.name} style={styles.image} />
-              <h4>{item.name}</h4>
-              <p>₹ {item.price}</p>
+              <div style={styles.infoRow}>
+                <h4 style={styles.name}>{item.name}</h4>
+                <p style={styles.price}>₹ {item.price}</p>
+              </div>
               <button style={styles.addBtn} onClick={() => handleAddToCart(item)}>
                 Add to Cart
               </button>
@@ -40,7 +42,6 @@ function Home() {
         </div>
       )}
 
-      {/* Floating Toast Notification */}
       {toastMsg && <div style={styles.toast}>{toastMsg}</div>}
     </div>
   );
@@ -48,35 +49,60 @@ function Home() {
 
 const styles = {
   container: {
-    padding: '20px',
+    padding: '30px',
     fontFamily: 'sans-serif',
   },
   grid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))',
-    gap: '20px',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    gap: '25px',
   },
   card: {
-    border: '1px solid #ccc',
-    borderRadius: '8px',
-    padding: '10px',
+    border: '1px solid #ddd',
+    borderRadius: '10px',
+    padding: '16px',
     textAlign: 'center',
-    boxShadow: '2px 2px 10px rgba(0,0,0,0.1)',
+    boxShadow: '2px 2px 15px rgba(0,0,0,0.08)',
+    backgroundColor: '#fff',
+    minHeight: '300px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
   image: {
     width: '100%',
-    height: '120px',
+    height: '160px',
     objectFit: 'cover',
-    borderRadius: '5px',
+    borderRadius: '8px',
+    marginBottom: '15px',
+  },
+  infoRow: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '16px',
+    padding: '0 5px',
+  },
+  name: {
+    fontSize: '17px',
+    margin: 0,
+    fontWeight: 600,
+    color: '#222',
+  },
+  price: {
+    fontSize: '16px',
+    color: '#28a745',
+    fontWeight: 'bold',
+    margin: 0,
   },
   addBtn: {
-    marginTop: '10px',
-    backgroundColor: '#28a745',
+    backgroundColor: '#007bff',
     color: '#fff',
     border: 'none',
-    padding: '6px 12px',
-    borderRadius: '4px',
+    padding: '10px',
+    borderRadius: '6px',
     cursor: 'pointer',
+    fontSize: '15px',
   },
   toast: {
     position: 'fixed',
@@ -87,7 +113,6 @@ const styles = {
     padding: '12px 20px',
     borderRadius: '8px',
     boxShadow: '2px 2px 12px rgba(0,0,0,0.3)',
-    animation: 'slideIn 0.4s ease-out',
     zIndex: 1000,
   },
 };

@@ -1,15 +1,27 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
 
+  // ✅ Load from localStorage when app starts
+  useEffect(() => {
+    const storedCart = localStorage.getItem('cart');
+    if (storedCart) {
+      setCartItems(JSON.parse(storedCart));
+    }
+  }, []);
+
+  // ✅ Save to localStorage whenever cartItems changes
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+  }, [cartItems]);
+
   const addToCart = (item) => {
     const existingItem = cartItems.find((i) => i.id === item.id);
     if (existingItem) {
-      alert("Item already in cart!");
-      return;
+      return; // Already in cart – ignore
     }
     setCartItems((prevItems) => [...prevItems, item]);
   };
@@ -18,7 +30,6 @@ export const CartProvider = ({ children }) => {
     setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
   };
 
-  // ✅ Add this function
   const clearCart = () => {
     setCartItems([]);
   };
@@ -29,7 +40,7 @@ export const CartProvider = ({ children }) => {
         cartItems,
         addToCart,
         removeFromCart,
-        clearCart, // ✅ Add this line
+        clearCart,
       }}
     >
       {children}
