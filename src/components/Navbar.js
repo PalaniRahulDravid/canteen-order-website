@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 function Navbar() {
   return (
     <nav style={styles.navbar}>
-      <h2 style={styles.logo}>CanteenXpress</h2>
+      <h2 style={styles.logo}>CampusEats</h2>
       <ul style={styles.links}>
         <li><Link to="/" style={styles.link}>Home</Link></li>
         <li><Link to="/cart" style={styles.link}>Cart</Link></li>

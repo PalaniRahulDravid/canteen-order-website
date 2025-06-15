@@ -18,34 +18,41 @@ function Cart() {
     existingOrders.push(newOrder);
     localStorage.setItem('orders', JSON.stringify(existingOrders));
 
-    clearCart(); // clears cart context
+    clearCart();
     alert('Order placed successfully!');
-    navigate('/orders'); // redirect to orders page
+    navigate('/orders');
   };
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h2>Your Cart</h2>
+    <div style={styles.container}>
+      <h2 style={styles.heading}>🛒 Your Shopping Cart</h2>
       {cartItems.length === 0 ? (
-        <p>No items in cart.</p>
+        <p style={styles.empty}>Your cart is empty.</p>
       ) : (
-        <div>
-          {cartItems.map((item) => (
-            <div key={item.id} style={styles.item}>
-              <img src={item.image} alt={item.name} style={styles.image} />
-              <div>
-                <h3>{item.name}</h3>
-                <p>₹ {item.price}</p>
-                <button onClick={() => removeFromCart(item.id)} style={styles.removeBtn}>
-                  Remove
-                </button>
+        <div style={styles.cartArea}>
+          <div style={styles.cartList}>
+            {cartItems.map((item) => (
+              <div key={item.id} style={styles.itemCard}>
+                <img src={item.image} alt={item.name} style={styles.image} />
+                <div style={styles.itemDetails}>
+                  <h3 style={styles.itemName}>{item.name}</h3>
+                  <p style={styles.price}>₹ {item.price}</p>
+                  <button onClick={() => removeFromCart(item.id)} style={styles.removeBtn}>
+                    Remove
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
-          <h3>Total: ₹ {total}</h3>
-          <button onClick={placeOrder} style={styles.orderBtn}>
-            Place Order
-          </button>
+            ))}
+          </div>
+
+          <div style={styles.summaryBox}>
+            <h3>Price Details</h3>
+            <p>Total Items: {cartItems.length}</p>
+            <p>Total Price: ₹ {total}</p>
+            <button onClick={placeOrder} style={styles.orderBtn}>
+              Place Order
+            </button>
+          </div>
         </div>
       )}
     </div>
@@ -53,39 +60,87 @@ function Cart() {
 }
 
 const styles = {
-  item: {
+  container: {
+    padding: '40px',
+    fontFamily: 'sans-serif',
+    maxWidth: '1000px',
+    margin: 'auto',
+  },
+  heading: {
+    marginBottom: '30px',
+    color: '#333',
+  },
+  empty: {
+    textAlign: 'center',
+    fontSize: '18px',
+    color: '#888',
+  },
+  cartArea: {
     display: 'flex',
-    alignItems: 'center',
-    marginBottom: '15px',
-    borderBottom: '1px solid #ccc',
-    paddingBottom: '10px',
+    flexDirection: 'row',
+    gap: '30px',
+    flexWrap: 'wrap',
+  },
+  cartList: {
+    flex: '3',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '20px',
+  },
+  itemCard: {
+    display: 'flex',
     gap: '15px',
+    padding: '15px',
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    backgroundColor: '#fff',
+    boxShadow: '0 2px 5px rgba(0,0,0,0.05)',
   },
   image: {
-    width: '100px',
-    height: '80px',
+    width: '120px',
+    height: '100px',
     objectFit: 'cover',
     borderRadius: '5px',
+  },
+  itemDetails: {
+    flex: 1,
+  },
+  itemName: {
+    margin: '0 0 5px 0',
+  },
+  price: {
+    color: '#28a745',
+    fontWeight: 'bold',
+    marginBottom: '10px',
   },
   removeBtn: {
     backgroundColor: '#dc3545',
     color: '#fff',
     border: 'none',
-    padding: '5px 10px',
+    padding: '6px 12px',
     cursor: 'pointer',
-    borderRadius: '4px',
-    marginTop: '5px',
+    borderRadius: '5px',
+  },
+  summaryBox: {
+    flex: '1',
+    padding: '20px',
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    backgroundColor: '#f9f9f9',
+    height: 'fit-content',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
   },
   orderBtn: {
-    backgroundColor: '#28a745',
+    backgroundColor: '#007bff',
     color: '#fff',
     border: 'none',
-    padding: '10px 15px',
+    padding: '10px 16px',
+    borderRadius: '5px',
+    marginTop: '20px',
     cursor: 'pointer',
-    borderRadius: '4px',
-    marginTop: '15px',
     fontSize: '16px',
-  },
+    width: '100%',
+  }
 };
 
 export default Cart;

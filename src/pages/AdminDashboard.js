@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
 function AdminDashboard() {
-  // Load from localStorage
   const [menu, setMenu] = useState(() => {
     const saved = localStorage.getItem('menu');
     return saved ? JSON.parse(saved) : [];
@@ -13,7 +12,6 @@ function AdminDashboard() {
     image: ''
   });
 
-  // Save to localStorage whenever menu changes
   useEffect(() => {
     localStorage.setItem('menu', JSON.stringify(menu));
   }, [menu]);
@@ -40,18 +38,41 @@ function AdminDashboard() {
 
   return (
     <div style={styles.container}>
-      <h2>Admin Dashboard</h2>
+      <h2 style={styles.heading}>🍽️ Admin Dashboard</h2>
 
       <form onSubmit={addItem} style={styles.form}>
-        <input type="text" name="name" placeholder="Food Name" required value={form.name} onChange={handleChange} />
-        <input type="number" name="price" placeholder="Price" required value={form.price} onChange={handleChange} />
-        <input type="text" name="image" placeholder="Image URL (optional)" value={form.image} onChange={handleChange} />
-        <button type="submit">Add Item</button>
+        <input
+          type="text"
+          name="name"
+          placeholder="Food Name"
+          required
+          value={form.name}
+          onChange={handleChange}
+          style={styles.input}
+        />
+        <input
+          type="number"
+          name="price"
+          placeholder="Price"
+          required
+          value={form.price}
+          onChange={handleChange}
+          style={styles.input}
+        />
+        <input
+          type="text"
+          name="image"
+          placeholder="Image URL (optional)"
+          value={form.image}
+          onChange={handleChange}
+          style={styles.input}
+        />
+        <button type="submit" style={styles.addButton}>Add Item</button>
       </form>
 
-      <h3>Current Menu</h3>
+      <h3 style={styles.subheading}>📋 Current Menu</h3>
       {menu.length === 0 ? (
-        <p>No items added yet.</p>
+        <p style={styles.noItems}>No items added yet.</p>
       ) : (
         <div style={styles.grid}>
           {menu.map((item) => (
@@ -59,9 +80,7 @@ function AdminDashboard() {
               <img src={item.image} alt={item.name} style={styles.image} />
               <h4>{item.name}</h4>
               <p>₹ {item.price}</p>
-              <button onClick={() => deleteItem(item.id)} style={styles.deleteBtn}>
-                Delete
-              </button>
+              <button onClick={() => deleteItem(item.id)} style={styles.deleteBtn}>Delete</button>
             </div>
           ))}
         </div>
@@ -72,41 +91,76 @@ function AdminDashboard() {
 
 const styles = {
   container: {
-    padding: '20px',
+    padding: '40px',
+    maxWidth: '1000px',
+    margin: 'auto',
+    fontFamily: 'sans-serif',
+  },
+  heading: {
+    fontSize: '28px',
+    marginBottom: '30px',
+    color: '#333',
+  },
+  subheading: {
+    marginTop: '40px',
+    marginBottom: '20px',
+    color: '#444',
   },
   form: {
     display: 'flex',
-    flexDirection: 'column',
-    gap: '10px',
-    maxWidth: '300px',
-    marginBottom: '30px',
+    gap: '15px',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    marginBottom: '20px',
+  },
+  input: {
+    padding: '10px',
+    fontSize: '14px',
+    borderRadius: '5px',
+    border: '1px solid #ccc',
+    flex: '1 1 200px',
+  },
+  addButton: {
+    padding: '10px 16px',
+    backgroundColor: '#28a745',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    fontWeight: 'bold',
   },
   grid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
     gap: '20px',
   },
   card: {
-    border: '1px solid #ccc',
+    backgroundColor: '#fff',
+    padding: '15px',
     borderRadius: '8px',
-    padding: '10px',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
     textAlign: 'center',
-    boxShadow: '2px 2px 10px rgba(0,0,0,0.1)',
   },
   image: {
     width: '100%',
-    height: '120px',
+    height: '130px',
     objectFit: 'cover',
     borderRadius: '5px',
+    marginBottom: '10px',
   },
   deleteBtn: {
     backgroundColor: '#dc3545',
     color: '#fff',
     border: 'none',
-    padding: '6px 12px',
-    borderRadius: '4px',
+    padding: '8px 12px',
+    borderRadius: '5px',
     cursor: 'pointer',
+    fontSize: '14px',
   },
+  noItems: {
+    color: '#777',
+    fontStyle: 'italic',
+  }
 };
 
 export default AdminDashboard;
