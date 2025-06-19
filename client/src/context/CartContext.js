@@ -5,7 +5,7 @@ export const CartContext = createContext();
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
 
-  // ✅ Load from localStorage when app starts
+  // Load from localStorage when app starts
   useEffect(() => {
     const storedCart = localStorage.getItem('cart');
     if (storedCart) {
@@ -13,17 +13,22 @@ export const CartProvider = ({ children }) => {
     }
   }, []);
 
-  // ✅ Save to localStorage whenever cartItems changes
+  // Save to localStorage whenever cartItems changes
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cartItems));
   }, [cartItems]);
 
+  // Add to cart: increment quantity if exists, else add new
   const addToCart = (item) => {
-    const existingItem = cartItems.find((i) => i.id === item.id);
-    if (existingItem) {
-      return; // Already in cart – ignore
-    }
-    setCartItems((prevItems) => [...prevItems, item]);
+    setCartItems((prevItems) => {
+      const existingItem = prevItems.find((i) => i.id === item.id);
+      if (existingItem) {
+        return prevItems.map((i) =>
+          i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+        );
+      }
+      return [...prevItems, { ...item, quantity: 1 }];
+    });
   };
 
   const removeFromCart = (id) => {
@@ -34,6 +39,15 @@ export const CartProvider = ({ children }) => {
     setCartItems([]);
   };
 
+  // Optionally: update quantity directly
+  const updateQuantity = (id, quantity) => {
+    setCartItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === id ? { ...item, quantity: Math.max(1, quantity) } : item
+      )
+    );
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -41,6 +55,8 @@ export const CartProvider = ({ children }) => {
         addToCart,
         removeFromCart,
         clearCart,
+        updateQuantity,
+        setCartItems, // for advanced use
       }}
     >
       {children}

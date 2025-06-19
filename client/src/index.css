@@ -8,3 +8,35 @@
     transform: translateX(0);
   }
 }
+
+/* Responsive container padding */
+body, #root {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Make images responsive */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Responsive utility for cards and forms */
+@media (max-width: 768px) {
+  .responsive-flex {
+    flex-direction: column !important;
+    gap: 16px !important;
+  }
+  .responsive-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 480px) {
+  .responsive-padding {
+    padding: 10px !important;
+  }
+}

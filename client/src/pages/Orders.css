@@ -1,0 +1,129 @@
+.orders-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+h2 {
+  text-align: center;
+  color: #b7791f;
+  margin-bottom: 24px;
+}
+
+.orders-empty {
+  text-align: center;
+  color: #718096;
+  font-size: 1.1rem;
+  margin-top: 32px;
+}
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.order-card {
+  background: linear-gradient(90deg, #fbd38d 0%, #f6e05e 100%);
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(251, 211, 141, 0.13);
+  padding: 18px 18px 12px 18px;
+  transition: box-shadow 0.2s;
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.order-id {
+  font-weight: 600;
+  color: #b7791f;
+  font-size: 1.05rem;
+}
+
+.order-status {
+  padding: 3px 12px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+  background: #718096;
+  text-transform: capitalize;
+}
+
+.order-status.completed {
+  background: #38a169;
+}
+.order-status.pending {
+  background: #ecc94b;
+  color: #2d3748;
+}
+.order-status.cancelled {
+  background: #e53e3e;
+}
+
+.order-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.order-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fffbe6;
+  border-radius: 8px;
+  padding: 8px 12px;
+  min-width: 180px;
+}
+
+.order-item-image {
+  width: 48px;
+  height: 38px;
+  object-fit: cover;
+  border-radius: 6px;
+  background: #eee;
+}
+
+.order-item-details {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.98rem;
+  color: #4a5568;
+}
+
+.order-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  font-size: 1rem;
+}
+
+.order-date {
+  color: #718096;
+  font-size: 0.95rem;
+}
+
+.order-total {
+  color: #e53e3e;
+  font-weight: 600;
+  background: #fffbe6;
+  padding: 4px 12px;
+  border-radius: 8px;
+}
+
+@media (max-width: 700px) {
+  .order-items {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .order-card {
+    padding: 12px 6px 8px 6px;
+  }
+}

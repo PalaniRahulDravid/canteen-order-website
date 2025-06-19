@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import './Register.css';
 
 function Register() {
   const navigate = useNavigate();
@@ -41,17 +42,22 @@ function Register() {
   };
 
   return (
-    <div style={styles.outer}>
-      <div style={styles.card}>
+    <div className="register-outer">
+      <div className="register-card">
         {/* Left side - Branding */}
-        <div style={styles.left}>
-          <h1 style={{ marginBottom: '10px' }}>New here?</h1>
+        <div className="register-left">
+          <h1>New here?</h1>
           <p>Sign up to explore the canteen services and order food with ease!</p>
+          <img
+            src="https://img.freepik.com/free-vector/sign-up-concept-illustration_114360-7965.jpg"
+            alt="register"
+            className="register-image"
+          />
         </div>
 
         {/* Right side - Form */}
-        <form style={styles.right} onSubmit={handleSubmit}>
-          <h2 style={styles.heading}>Create Account</h2>
+        <form className="register-right" onSubmit={handleSubmit}>
+          <h2 className="register-heading">Create Account</h2>
           <input
             type="text"
             name="name"
@@ -59,7 +65,7 @@ function Register() {
             required
             value={form.name}
             onChange={handleChange}
-            style={styles.input}
+            className="register-input"
           />
           <input
             type="email"
@@ -68,7 +74,7 @@ function Register() {
             required
             value={form.email}
             onChange={handleChange}
-            style={styles.input}
+            className="register-input"
           />
           <input
             type="password"
@@ -77,98 +83,19 @@ function Register() {
             required
             value={form.password}
             onChange={handleChange}
-            style={styles.input}
+            className="register-input"
           />
-          <button type="submit" style={styles.button}>Register</button>
-          <p style={styles.footerText}>
-            Already have an account? <Link to="/login" style={styles.link}>Login here</Link>
+          <button type="submit" className="register-button">Register</button>
+          <p className="register-footerText">
+            Already have an account? <Link to="/login" className="register-link">Login here</Link>
           </p>
         </form>
       </div>
 
       {/* Toast Message */}
-      {toast && <div style={styles.toast}>{toast}</div>}
+      {toast && <div className="register-toast">{toast}</div>}
     </div>
   );
 }
-
-const styles = {
-  outer: {
-    height: '100vh',
-    backgroundColor: '#f1f3f6',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative',
-  },
-  card: {
-    width: '60%',
-    display: 'flex',
-    borderRadius: '8px',
-    overflow: 'hidden',
-    boxShadow: '0px 2px 12px rgba(0,0,0,0.15)',
-    backgroundColor: '#fff',
-  },
-  left: {
-    flex: 1,
-    backgroundColor: '#2874f0',
-    color: '#fff',
-    padding: '40px 30px',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-  right: {
-    flex: 1,
-    padding: '40px 30px',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-  heading: {
-    marginBottom: '20px',
-    fontWeight: '600',
-    fontSize: '24px',
-  },
-  input: {
-    padding: '12px',
-    marginBottom: '15px',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    fontSize: '14px',
-  },
-  button: {
-    backgroundColor: '#fb641b',
-    color: '#fff',
-    padding: '12px',
-    border: 'none',
-    borderRadius: '4px',
-    fontSize: '16px',
-    cursor: 'pointer',
-    marginTop: '10px',
-  },
-  footerText: {
-    marginTop: '20px',
-    fontSize: '14px',
-  },
-  link: {
-    color: '#2874f0',
-    textDecoration: 'none',
-    fontWeight: 'bold',
-  },
-  toast: {
-    position: 'fixed',
-    bottom: '20px',
-    right: '20px',
-    backgroundColor: '#323232',
-    color: '#fff',
-    padding: '14px 20px',
-    borderRadius: '8px',
-    fontSize: '15px',
-    boxShadow: '2px 2px 12px rgba(0,0,0,0.2)',
-    animation: 'slideIn 0.4s ease-out',
-    zIndex: 1000,
-  }
-};
 
 export default Register;

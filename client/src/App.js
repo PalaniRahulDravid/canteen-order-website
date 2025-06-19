@@ -7,19 +7,24 @@ import Register from './pages/Register';
 import Cart from './pages/Cart';
 import Orders from './pages/Orders';
 import AdminDashboard from './pages/AdminDashboard';
+import Checkout from './pages/Checkout';
+import './App.css'; // Import global styles
 
 function App() {
   return (
     <Router>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/orders" element={<Orders />} />
-        <Route path="/admin" element={<AdminDashboard />} />
-      </Routes>
+      <div className="main-content">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/checkout" element={<Checkout />} /> {/* Add this line */}
+        </Routes>
+      </div>
     </Router>
   );
 }
