@@ -1,23 +1,44 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { CartContext } from '../context/CartContext';
+import { useNavigate } from 'react-router-dom';
 import './Home.css';
 
 function Home() {
   const [menu, setMenu] = useState([]);
   const { addToCart } = useContext(CartContext);
+  const [showLock, setShowLock] = useState(false);
   const [toastMsg, setToastMsg] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedMenu = localStorage.getItem('menu');
-    if (storedMenu) {
-      setMenu(JSON.parse(storedMenu));
-    }
+    if (storedMenu) setMenu(JSON.parse(storedMenu));
+
+    // Show lock overlay on scroll if not logged in
+    const handleScroll = () => {
+      const user = localStorage.getItem('currentUser');
+      if (!user) setShowLock(true);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const handleAddToCart = (item) => {
+    const user = localStorage.getItem('currentUser');
+    if (!user) {
+      setShowLock(true);
+      return;
+    }
     addToCart(item);
     setToastMsg(`${item.name} added to cart ✅`);
-    setTimeout(() => setToastMsg(''), 2000);
+    setTimeout(() => setToastMsg(''), 1800);
+  };
+
+  const handleLogin = () => {
+    setShowLock(false);
+    navigate('/login');
   };
 
   return (
@@ -47,7 +68,29 @@ function Home() {
           ))}
         </div>
       )}
+
+      {/* Toast Message */}
       {toastMsg && <div className="home-toast">{toastMsg}</div>}
+
+      {/* Locked Overlay */}
+      {showLock && (
+        <div className="home-lock-overlay">
+          <div className="home-lock-modal">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png"
+              alt="Locked"
+              className="home-lock-img"
+            />
+            <h3>Please Login First</h3>
+            <p className="home-lock-desc">
+              You need to be logged in to view and order from the menu.
+            </p>
+            <button className="home-lock-btn" onClick={handleLogin}>
+              Login Now
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
