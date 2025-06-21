@@ -1,72 +1,87 @@
-# College Canteen Ordering System 🍽️
+# 🍽️ College Canteen Ordering System
 
-This is a web-based canteen ordering system designed for college use.  
-It allows students to browse available food items, place orders online, and reduce queue time at the canteen.
+A modern web-based canteen ordering platform designed for college use.  
+Students can browse food items, add them to a cart, and manage orders — making the canteen experience smoother and faster.
 
 ---
 
 ## 🚀 Project Status
 
-🟢 **Project Initialized**  
-✅ Basic structure and demo pages created using React  
-🔄 Regular updates will be made daily with new features and improvements
+✅ **Frontend Completed (React.js)**  
+🔧 **Backend in Progress (Planned with Node.js & Firebase)**  
+🔄 Regular feature improvements and updates coming soon!
 
 ---
 
-## 🧩 Current Structure (Pages Created)
+## 📁 Project Structure (Frontend)
 
-- 🏠 `Home Page` – Landing page with demo content
-- 🛒 `Cart Page` – View and manage selected food items
-- 📦 `Orders Page` – Displays placed orders (placeholder)
-- 🔐 `Login Page` – Demo login form
-- 📝 `Register Page` – User signup layout
-- 🛠️ `Admin Page` – Admin control panel (demo structure)
+- 🏠 **Home Page** – Landing page displaying food menu
+- 🛒 **Cart Page** – View and manage selected items
+- 📦 **Orders Page** – Placeholder for viewing order history
+- 🔐 **Login Page** – Basic login UI (not functional yet)
+- 📝 **Register Page** – Signup form layout
+- 🛠️ **Admin Page** – Placeholder admin dashboard
 
 ---
 
-## 📌 Features Planned (To Be Built)
+## 📌 Key Features (Frontend)
 
-- ✅ Responsive UI with React Components
-- 🧾 Dynamic cart and order management
-- 💳 Online payment simulation
-- 🔄 Real-time order tracking
-- 🧑‍🍳 Admin order control panel
-- 🔐 Firebase authentication and database (planned)
+- ⚛️ Built with modern React.js components
+- 📱 Fully responsive UI for mobile and desktop
+- 🧾 Cart system with localStorage
+- ✅ Modular code and clean UI structure
 
 ---
 
 ## 🛠️ Technologies Used
 
-- ⚛️ **React.js** (Frontend framework)
-- 🎨 CSS3 for styling
-- 📦 Node.js (planned for backend)
-- 🔥 Firebase (planned for authentication & database)
-- 🧪 Additional tools (coming soon)
+| Purpose         | Tech Stack             |
+|----------------|------------------------|
+| Frontend       | React.js, CSS3         |
+| State Storage  | localStorage (for now) |
+| Backend (Plan) | Node.js, Express.js    |
+| Auth/DB (Plan) | Firebase               |
+| Deployment     | GitHub Pages / Netlify (soon) |
 
 ---
 
-## 📅 Future Plans
+## 📅 Future Roadmap
 
-This project will be updated **regularly** as features are developed:
-- 🧱 Functional components for each page
-- 🔌 Backend integration with Node.js
-- 🔐 User login/register with Firebase Auth
-- 🚀 Deployment on platforms like Vercel or Netlify
+- 🔌 Backend integration with Node.js + Express
+- 🔐 Firebase Authentication for user login/register
+- 💾 Firestore/Realtime DB for order storage
+- 💳 Online payment simulation (optional)
+- 🧑‍🍳 Admin dashboard to manage canteen orders
+- 🚀 Deployment to Netlify or Vercel
 
 ---
+
+## 📸 Screenshots
+
+### 🏠 Home Page
+![Home Page](./screenshots/home.png)
+
+### 🛒 Cart Page
+![Cart Page](./screenshots/cart.png)
+
 
 ## 🙌 Contributions
 
-This is a personal/college-based project.  
-However, if you’d like to suggest improvements or report issues, feel free to open an issue or pull request.
+This is a **personal project** under development.  
+Feel free to open an issue or suggest improvements via pull requests.
 
 ---
 
 ## 🧑‍💻 Developer
 
 **Rahul Dravid Palani**  
-B.Tech Student | Web Developer 
-
-Project Guided by: ChatGPT ( Code Buddy 😎)
+B.Tech Student | Frontend Web Developer  
+**Project Guide**: ChatGPT (Code Buddy 😎)
 
 ---
+
+## 🔗 Project Links
+
+- GitHub Repo: [Click Here](https://github.com/PalaniRahulDravid/canteen-order-website)
+- Live Demo: *(coming soon)*
+
