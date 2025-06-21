@@ -8,7 +8,7 @@ function Navbar() {
     <nav className="navbar">
       <div className="navbar-container">
         <Link to="/" className="navbar-logo">
-          CanteenApp
+          Campus Eats
         </Link>
         <input type="checkbox" id="navbar-toggle" className="navbar-toggle" />
         <label htmlFor="navbar-toggle" className="navbar-icon">
