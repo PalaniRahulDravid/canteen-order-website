@@ -118,6 +118,30 @@ h2 {
   border-radius: 8px;
 }
 
+.order-item-qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 12px;
+  gap: 4px;
+}
+
+.qr-status {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.qr-status.received {
+  color: #38a169; /* green */
+}
+
+.qr-status.pending {
+  color: #b7791f; /* orange */
+}
+
+
 @media (max-width: 700px) {
   .order-items {
     flex-direction: column;
@@ -125,5 +149,9 @@ h2 {
   }
   .order-card {
     padding: 12px 6px 8px 6px;
+  }
+  .order-item-qr {
+    margin-left: 0;
+    margin-top: 8px;
   }
 }

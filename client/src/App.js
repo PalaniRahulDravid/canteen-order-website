@@ -8,6 +8,7 @@ import Cart from './pages/Cart';
 import Orders from './pages/Orders';
 import AdminDashboard from './pages/AdminDashboard';
 import Checkout from './pages/Checkout';
+import Scanner from './pages/Scanner';
 import './App.css'; // Import global styles
 
 function App() {
@@ -22,7 +23,8 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/checkout" element={<Checkout />} /> {/* Add this line */}
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/scanner" element={<Scanner />} />
         </Routes>
       </div>
     </Router>
