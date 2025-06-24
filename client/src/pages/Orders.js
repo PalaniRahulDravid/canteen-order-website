@@ -9,9 +9,17 @@ function Orders() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Fetch orders from backend
+  const fetchOrders = async () => {
+    const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    if (!user.id) return;
+    const res = await fetch(`http://localhost:5000/api/orders/user/${user.id}`);
+    const data = await res.json();
+    setOrders(data);
+  };
+
   useEffect(() => {
-    const stored = localStorage.getItem('orders');
-    setOrders(stored ? JSON.parse(stored) : []);
+    fetchOrders();
   }, []);
 
   // Show toast if redirected from scanner with success
@@ -20,19 +28,21 @@ function Orders() {
       setToast('🎉 All items received successfully!');
       setTimeout(() => setToast(''), 2000);
       window.history.replaceState({}, document.title);
+      fetchOrders(); // Refresh orders to update UI
     }
   }, [location.state]);
 
-  // Check if all items in the order are received
+  // Check if all items in the order are received (still uses localStorage for QR scan status)
   const isOrderReceived = (order) => {
     return order.items.every(item =>
-      localStorage.getItem(`received_${order._id}_${item.id}`) === 'true'
+      item && item.item && localStorage.getItem(`received_${order._id}_${item.item._id}`) === 'true'
     );
   };
 
   // Navigate to scanner with order info
   const handleQRScan = (orderId, items) => {
-    navigate('/scanner', { state: { orderId, itemIds: items.map(i => i.id) } });
+    // Only pass items that have a valid item object
+    navigate('/scanner', { state: { orderId, itemIds: items.filter(i => i.item).map(i => i.item._id) } });
   };
 
   return (
@@ -51,20 +61,26 @@ function Orders() {
                   <span className={`order-status ${order.status.toLowerCase()}`}>{order.status}</span>
                 </div>
                 <div className="order-items">
-                  {order.items.map(item => (
-                    <div className="order-item" key={item.id}>
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="order-item-image"
-                        onError={e => { e.target.src = '/images/placeholder-food.png'; }}
-                      />
-                      <div className="order-item-details">
-                        <span>{item.name}</span>
-                        <span>₹{item.price} x {item.quantity}</span>
+                  {order.items.map(({ item, quantity }, idx) =>
+                    item ? (
+                      <div className="order-item" key={item._id}>
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="order-item-image"
+                          onError={e => { e.target.src = '/images/placeholder-food.png'; }}
+                        />
+                        <div className="order-item-details">
+                          <span>{item.name}</span>
+                          <span>₹{item.price} x {quantity}</span>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ) : (
+                      <div className="order-item" key={idx} style={{ color: '#e53e3e', fontStyle: 'italic' }}>
+                        Item not found (may have been deleted)
+                      </div>
+                    )
+                  )}
                   <div
                     className="order-item-qr"
                     onClick={() => !received && handleQRScan(order._id, order.items)}

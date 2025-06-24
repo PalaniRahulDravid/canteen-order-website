@@ -11,31 +11,30 @@ function Login() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    const matchedUser = users.find((user) => user.email === form.email);
-
-    if (!matchedUser) {
-      setToastMsg('❌ User not found. Please register.');
-      setTimeout(() => setToastMsg(''), 3000);
-      return;
+    setToastMsg('');
+    try {
+      const res = await fetch('http://localhost:5000/api/users/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form)
+      });
+      const data = await res.json();
+      if (res.ok) {
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('currentUser', JSON.stringify(data.user));
+        setToastMsg(`✅ Welcome back, ${data.user.name || data.user.email.split('@')[0]} 👋`);
+        setTimeout(() => {
+          setToastMsg('');
+          navigate('/');
+        }, 1500);
+      } else {
+        setToastMsg('❌ ' + (data.msg || 'Login failed.'));
+      }
+    } catch (err) {
+      setToastMsg('❌ Server error. Try again.');
     }
-
-    if (matchedUser.password !== form.password) {
-      setToastMsg('❌ Incorrect password.');
-      setTimeout(() => setToastMsg(''), 3000);
-      return;
-    }
-
-    localStorage.setItem('currentUser', JSON.stringify(matchedUser));
-    setToastMsg(`✅ Welcome back, ${matchedUser.name || matchedUser.email.split('@')[0]} 👋`);
-
-    setTimeout(() => {
-      setToastMsg('');
-      navigate('/');
-    }, 2000);
   };
 
   return (

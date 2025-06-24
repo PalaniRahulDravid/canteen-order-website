@@ -15,30 +15,28 @@ function Register() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // ✅ Get existing users
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-
-    // ❌ Check if email already exists
-    const emailExists = users.find(user => user.email === form.email);
-
-    if (emailExists) {
-      setToast('⚠️ Email already registered. Please login.');
-      setTimeout(() => setToast(''), 3000);
-      return;
+    setToast('');
+    try {
+      const res = await fetch('http://localhost:5000/api/users/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form)
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setToast(`✅ Welcome ${form.name}! Registration successful.`);
+        setTimeout(() => {
+          setToast('');
+          navigate('/login');
+        }, 1500);
+      } else {
+        setToast('⚠️ ' + (data.msg || 'Registration failed.'));
+      }
+    } catch (err) {
+      setToast('❌ Server error. Try again.');
     }
-
-    // ✅ Save new user
-    users.push(form);
-    localStorage.setItem('users', JSON.stringify(users));
-    setToast(`✅ Welcome ${form.name}! Registration successful.`);
-
-    setTimeout(() => {
-      setToast('');
-      navigate('/login');
-    }, 2000);
   };
 
   return (

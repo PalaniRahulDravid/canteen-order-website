@@ -5,7 +5,7 @@ import './Checkout.css';
 function Checkout() {
   const navigate = useNavigate();
 
-  const handlePay = () => {
+  const handlePay = async () => {
     // Get cart and user
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
     const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
@@ -14,33 +14,31 @@ function Checkout() {
       return;
     }
 
-    // Calculate totals
-    const orderAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    const gst = +(orderAmount * 0.05).toFixed(2);
-    const total = +(orderAmount + gst).toFixed(2);
+    // Prepare items for backend
+    const items = cart.map(item => ({
+      item: item.id, // id is _id from backend
+      quantity: item.quantity
+    }));
 
-    // Create order object
-    const order = {
-      _id: Date.now().toString(),
-      items: cart,
-      total,
-      status: 'Completed',
-      createdAt: new Date().toISOString(),
-      user: user.email || 'guest'
-    };
+    // Place order via API
+    const res = await fetch('http://localhost:5000/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: user.id, items })
+    });
 
-    // Save to orders in localStorage
-    const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-    orders.push(order);
-    localStorage.setItem('orders', JSON.stringify(orders));
-
-    // Clear cart
-    localStorage.removeItem('cart');
-
-    // Dummy payment success
-    alert('Payment Successful! 🎉\nThank you for your order.');
-    navigate('/orders');
+    if (res.ok) {
+      alert('Payment Successful! 🎉\nThank you for your order.');
+      localStorage.removeItem('cart');
+      navigate('/orders');
+    } else {
+      alert('Order failed. Please try again.');
+    }
   };
+
+  // ...rest of your component remains unchanged...
+  // (You can keep the summary UI as is)
+  // Just update the handlePay function as above
 
   return (
     <div className="checkout-container">

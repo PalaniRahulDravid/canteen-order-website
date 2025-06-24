@@ -22,7 +22,9 @@ function Scanner() {
           qrbox: 250,
         },
         (decodedText) => {
-          scanner.stop();
+          scanner.stop().then(() => {
+            document.getElementById(qrRegion).innerHTML = '';
+          });
           setResult(decodedText);
           processScan(decodedText);
         },

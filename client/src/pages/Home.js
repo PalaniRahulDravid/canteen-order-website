@@ -11,8 +11,13 @@ function Home() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedMenu = localStorage.getItem('menu');
-    if (storedMenu) setMenu(JSON.parse(storedMenu));
+    // Fetch menu from backend
+    const fetchMenu = async () => {
+      const res = await fetch('http://localhost:5000/api/menu');
+      const data = await res.json();
+      setMenu(data);
+    };
+    fetchMenu();
 
     // Show lock overlay on scroll if not logged in
     const handleScroll = () => {
@@ -31,7 +36,8 @@ function Home() {
       setShowLock(true);
       return;
     }
-    addToCart(item);
+    // Use _id from backend as id for cart
+    addToCart({ ...item, id: item._id });
     setToastMsg(`${item.name} added to cart ✅`);
     setTimeout(() => setToastMsg(''), 1800);
   };
@@ -55,7 +61,7 @@ function Home() {
       ) : (
         <div className="home-grid">
           {menu.map((item) => (
-            <div key={item.id} className="home-card">
+            <div key={item._id} className="home-card">
               <img src={item.image} alt={item.name} className="home-image" />
               <div className="home-info-row">
                 <h4 className="home-name">{item.name}</h4>
