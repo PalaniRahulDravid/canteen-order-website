@@ -40,7 +40,7 @@ function Register() {
   };
 
   return (
-    <div className="register-outer">
+    <div className="register-fixed-wrapper">
       <div className="register-card">
         {/* Left side - Branding */}
         <div className="register-left">

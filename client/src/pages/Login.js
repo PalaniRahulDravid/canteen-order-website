@@ -38,7 +38,7 @@ function Login() {
   };
 
   return (
-    <div className="login-wrapper">
+    <div className="login-fixed-wrapper">
       <div className="login-box">
         {/* Left Section */}
         <div className="login-left">

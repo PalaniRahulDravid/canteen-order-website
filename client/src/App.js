@@ -9,8 +9,8 @@ import Orders from './pages/Orders';
 import AdminDashboard from './pages/AdminDashboard';
 import Checkout from './pages/Checkout';
 import Scanner from './pages/Scanner';
-import Payment from './pages/Payment'; // <-- Add this line
-import './App.css'; // Import global styles
+import Payment from './pages/Payment';
+import './App.css';
 
 function App() {
   return (
@@ -26,7 +26,7 @@ function App() {
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/scanner" element={<Scanner />} />
-          <Route path="/payment" element={<Payment />} /> {/* Add this line */}
+          <Route path="/payment" element={<Payment />} />
         </Routes>
       </div>
     </Router>

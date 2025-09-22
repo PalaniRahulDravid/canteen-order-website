@@ -18,6 +18,6 @@ app.use('/api/menu', menuRoutes);
 app.use('/api/orders', orderRoutes);
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGO_URI)
   .then(() => app.listen(5000, () => console.log('Server running on port 5000')))
-  .catch(err => console.log(err));
+  .catch(err => console.error('MongoDB connection error:', err));

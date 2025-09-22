@@ -1,11 +1,13 @@
-.login-wrapper {
-  background-color: #f1f3f6;
-  min-height: 100vh;
+.login-fixed-wrapper {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
   display: flex;
-  justify-content: center;
   align-items: center;
-  position: relative;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  justify-content: center;
+  background: rgba(248, 249, 250, 0.98);
+  z-index: 100;
+  min-height: 100vh;
+  overflow: auto;
 }
 
 .login-box {
@@ -171,6 +173,7 @@
   }
   .login-form {
     gap: 16px;
+    width: 94%;
   }
   .login-input {
     font-size: 15px;
