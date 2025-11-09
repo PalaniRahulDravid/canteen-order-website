@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -10,13 +10,17 @@ import AdminDashboard from './pages/AdminDashboard';
 import Checkout from './pages/Checkout';
 import Scanner from './pages/Scanner';
 import Payment from './pages/Payment';
+import { CartProvider } from './context/CartContext';
 import './App.css';
 
-function App() {
+function AppContent() {
+  const location = useLocation();
+  const hideNavbar = ['/login', '/register'].includes(location.pathname);
+
   return (
-    <Router>
-      <Navbar />
-      <div className="main-content">
+    <>
+      {!hideNavbar && <Navbar />}
+      <div className={`main-content ${hideNavbar ? 'no-nav' : ''}`}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
@@ -29,6 +33,16 @@ function App() {
           <Route path="/payment" element={<Payment />} />
         </Routes>
       </div>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <CartProvider>
+        <AppContent />
+      </CartProvider>
     </Router>
   );
 }
