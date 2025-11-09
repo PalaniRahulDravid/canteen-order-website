@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Checkout.css';
 
+// ✅ Use environment variable for backend URL
+const API = process.env.REACT_APP_API_URL;
+
 function Checkout() {
   const navigate = useNavigate();
   const [success, setSuccess] = useState(false);
@@ -19,26 +22,29 @@ function Checkout() {
     }
     setSuccess(true);
 
-    // Place order in backend after showing dummy message
+    // ✅ Place order in backend after showing dummy success message
     setTimeout(async () => {
       if (!user.id) {
         navigate('/orders');
         return;
       }
-      const items = cart.map(item => ({
+
+      const items = cart.map((item) => ({
         item: item.id,
-        quantity: item.quantity
+        quantity: item.quantity,
       }));
+
       try {
-        await fetch('http://localhost:5000/api/orders', {
+        await fetch(`${API}/api/orders`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ userId: user.id, items })
+          body: JSON.stringify({ userId: user.id, items }),
         });
         localStorage.removeItem('cart');
       } catch (err) {
-        // Optionally show an error message
+        console.error('Error placing order:', err);
       }
+
       navigate('/orders');
     }, 2000);
   };
@@ -52,32 +58,50 @@ function Checkout() {
           className="checkout-img"
         />
         <h2 className="checkout-title">Canteen Payment</h2>
+
         <div className="checkout-summary">
           <div>
             <span>Order Amount</span>
-            <span>₹ <b>{total}</b></span>
+            <span>
+              ₹ <b>{total}</b>
+            </span>
           </div>
           <div>
             <span>GST (5%)</span>
-            <span>₹ <b>{gst}</b></span>
+            <span>
+              ₹ <b>{gst}</b>
+            </span>
           </div>
           <div className="checkout-total">
             <span>Total Payable</span>
-            <span>₹ <b>{grandTotal}</b></span>
+            <span>
+              ₹ <b>{grandTotal}</b>
+            </span>
           </div>
         </div>
-        <button className="checkout-pay-btn" onClick={handlePay} disabled={success}>
+
+        <button
+          className="checkout-pay-btn"
+          onClick={handlePay}
+          disabled={success}
+        >
           Pay Now
         </button>
-        <p className="checkout-note">* This is a demo payment page. No real money will be deducted.</p>
+
+        <p className="checkout-note">
+          * This is a demo payment page. No real money will be deducted.
+        </p>
+
         {success && (
-          <div style={{
-            marginTop: 18,
-            color: '#38a169',
-            fontWeight: 600,
-            fontSize: '1.2rem'
-          }}>
-            Payment Successful! Redirecting to Orders...
+          <div
+            style={{
+              marginTop: 18,
+              color: '#38a169',
+              fontWeight: 600,
+              fontSize: '1.2rem',
+            }}
+          >
+            ✅ Payment Successful! Redirecting to Orders...
           </div>
         )}
       </div>

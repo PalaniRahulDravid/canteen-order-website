@@ -3,6 +3,9 @@ import { CartContext } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
 
+// ✅ Use environment variable for backend API URL
+const API = process.env.REACT_APP_API_URL;
+
 function Home() {
   const [menu, setMenu] = useState([]);
   const { addToCart } = useContext(CartContext);
@@ -11,15 +14,19 @@ function Home() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch menu from backend
+    // ✅ Fetch menu from backend
     const fetchMenu = async () => {
-      const res = await fetch('http://localhost:5000/api/menu');
-      const data = await res.json();
-      setMenu(data);
+      try {
+        const res = await fetch(`${API}/api/menu`);
+        const data = await res.json();
+        setMenu(data);
+      } catch (err) {
+        console.error('Error fetching menu:', err);
+      }
     };
     fetchMenu();
 
-    // Show lock overlay on scroll if not logged in
+    // ✅ Show lock overlay on scroll if not logged in
     const handleScroll = () => {
       const user = localStorage.getItem('currentUser');
       if (!user) setShowLock(true);
@@ -36,7 +43,7 @@ function Home() {
       setShowLock(true);
       return;
     }
-    // Use _id from backend as id for cart
+    // ✅ Use _id from backend as id for cart
     addToCart({ ...item, id: item._id });
     setToastMsg(`${item.name} added to cart ✅`);
     setTimeout(() => setToastMsg(''), 1800);
@@ -52,22 +59,33 @@ function Home() {
       <div className="home-hero">
         <h1>Welcome to CanteenApp</h1>
         <p>
-          Order your favorite meals quickly and easily. Enjoy a seamless canteen experience from your mobile or laptop!
+          Order your favorite meals quickly and easily. Enjoy a seamless canteen
+          experience from your mobile or laptop!
         </p>
       </div>
+
       <h2 className="home-title">Canteen Menu</h2>
+
       {menu.length === 0 ? (
         <p className="no-items">No items available. Please check later!</p>
       ) : (
         <div className="home-grid">
           {menu.map((item) => (
             <div key={item._id} className="home-card">
-              <img src={item.image} alt={item.name} className="home-image" />
+              <img
+                src={item.image}
+                alt={item.name}
+                className="home-image"
+                onError={(e) => (e.target.src = '/images/placeholder-food.png')}
+              />
               <div className="home-info-row">
                 <h4 className="home-name">{item.name}</h4>
                 <p className="home-price">₹ {item.price}</p>
               </div>
-              <button className="home-add-btn" onClick={() => handleAddToCart(item)}>
+              <button
+                className="home-add-btn"
+                onClick={() => handleAddToCart(item)}
+              >
                 Add to Cart
               </button>
             </div>
@@ -75,10 +93,10 @@ function Home() {
         </div>
       )}
 
-      {/* Toast Message */}
+      {/* ✅ Toast Message */}
       {toastMsg && <div className="home-toast">{toastMsg}</div>}
 
-      {/* Locked Overlay */}
+      {/* ✅ Locked Overlay */}
       {showLock && (
         <div className="home-lock-overlay">
           <div className="home-lock-modal">
